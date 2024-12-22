@@ -1,7 +1,13 @@
 package com.example.Backend.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name="message")
 public class Message {
@@ -18,8 +24,6 @@ public class Message {
     @Column (name="timePostedEpoch")
     private Long timePostedEpoch;
 
-    public Message() {}
-
     public Message(Integer postedBy, String messageText, Long timePostedEpoch) {
         this.postedBy = postedBy;
         this.messageText = messageText;
@@ -30,38 +34,6 @@ public class Message {
         this.messageId = messageId;
         this.postedBy = postedBy;
         this.messageText = messageText;
-        this.timePostedEpoch = timePostedEpoch;
-    }
-
-    public Integer getMessageId() {
-        return messageId;
-    }
-
-    public void setMessageId(Integer messageId) {
-        this.messageId = messageId;
-    }
-
-    public Integer getPostedBy() {
-        return postedBy;
-    }
-
-    public void setPostedBy(Integer postedBy) {
-        this.postedBy = postedBy;
-    }
-
-    public String getMessageText() {
-        return messageText;
-    }
-
-    public void setMessageText(String messageText) {
-        this.messageText = messageText;
-    }
-
-    public Long getTimePostedEpoch() {
-        return timePostedEpoch;
-    }
-
-    public void setTimePostedEpoch(Long timePostedEpoch) {
         this.timePostedEpoch = timePostedEpoch;
     }
 
