@@ -3,6 +3,7 @@ package com.example.Backend.service;
 import com.example.Backend.entity.Account;
 import com.example.Backend.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -12,10 +13,12 @@ import java.util.Optional;
 @Service
 public class AccountService {
     private final AccountRepository accountRepository;
+    //private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public AccountService(AccountRepository accountRepository) {
+    public AccountService(AccountRepository accountRepository/*, PasswordEncoder passwordEncoder*/) {
         this.accountRepository = accountRepository;
+        //this.passwordEncoder = passwordEncoder;
     }
 
     //need functions to create a user and to log in an existing user
@@ -38,6 +41,8 @@ public class AccountService {
         Optional<Account> optionalAccount = accountRepository.findByUsernameAndPassword(account.getUsername(), account.getPassword());
         return optionalAccount.orElse(null);
     }
+
+    public List<Account> getAllAccounts() {return (List<Account>) accountRepository.findAll();}
 
     public List<Account> findAccounts(String search) {
         List<Account> accounts = accountRepository.findAll();
@@ -79,4 +84,9 @@ public class AccountService {
         }
         return null;
     }
+
+//    public Account saveAccount(Account account) {
+//        account.setPassword(passwordEncoder.encode(account.getPassword()));
+//        return accountRepository.save(account);
+//    }
 }

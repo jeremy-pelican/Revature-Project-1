@@ -21,9 +21,9 @@ import java.util.Map;
 @RestController
 public class SocialMediaController {
     @Autowired private AccountRepository accountRepository;
-    @Autowired private JWTUtil jwtUtil;
-    @Autowired private AuthenticationManager authenticationManager;
-    @Autowired private PasswordEncoder passwordEncoder;
+//    @Autowired private JWTUtil jwtUtil;
+//    @Autowired private AuthenticationManager authenticationManager;
+//    @Autowired private PasswordEncoder passwordEncoder;
     private final AccountService accountService;
     private final MessageService messageService;
     private final LikesService likesService;
@@ -50,11 +50,16 @@ public class SocialMediaController {
 //            return ResponseEntity.status(400).body(null);
 //        }
 //        return ResponseEntity.status(200).body(acc);
-        String encodedPass = passwordEncoder.encode(account.getPassword());
-        account.setPassword(encodedPass);
-        account = accountRepository.save(account);
-        String token = jwtUtil.generateToken(account.getUsername());
-        return Collections.singletonMap("jwt-token", token);
+        try {
+            String encodedPass = "passwordEncoder.encode(account.getPassword())";
+            account.setPassword(encodedPass);
+            account = accountRepository.save(account);
+            String token = "jwtUtil.generateToken(account.getUsername())";
+            return Collections.singletonMap("jwt-token", token);
+        }
+        catch (AuthenticationException authExc) {
+            throw new RuntimeException("Invalid Registration Credentials");
+        }
     }
 
     //@PostMapping("/login") to verify Account login
@@ -67,13 +72,17 @@ public class SocialMediaController {
 //        return ResponseEntity.status(200).body(acc);
         try {
             UsernamePasswordAuthenticationToken authInputToken = new UsernamePasswordAuthenticationToken(body.getUsername(), body.getPassword());
-            authenticationManager.authenticate(authInputToken);
-            String token = jwtUtil.generateToken(body.getUsername());
+            //authenticationManager.authenticate(authInputToken);
+            String token = "jwtUtil.generateToken(body.getUsername())";
             return Collections.singletonMap("jwt-token", token);
         }
         catch (AuthenticationException authExc) {
             throw new RuntimeException("Invalid Login Credentials");
         }
+    }
+    @GetMapping("/accounts")
+    public ResponseEntity<List<Account>> getAllAccounts() {
+        return ResponseEntity.status(200).body(accountService.getAllAccounts());
     }
 
     //@PostMapping("/messages") to create new message
@@ -137,7 +146,7 @@ public class SocialMediaController {
         return ResponseEntity.status(200).body(messageService.findMessages(search));
     }
 
-    @PatchMapping("/accounts/{id}")
+    @PatchMapping("/accounts/{id}/username")
     public ResponseEntity<Integer> updateAccountUsername(@PathVariable int accountId, @RequestBody Account account) {
         Account acct = accountService.updateUsername(accountId, account.getUsername());
         if (acct == null) {
@@ -146,7 +155,7 @@ public class SocialMediaController {
         return ResponseEntity.status(200).body(1);
     }
 
-    @PatchMapping("/accounts/{id}")
+    @PatchMapping("/accounts/{id}/password")
     public ResponseEntity<Integer> updateAccountPassword(@PathVariable int accountId, @RequestBody Account account) {
         Account acct = accountService.updatePassword(accountId, account.getPassword());
         if (acct == null) {

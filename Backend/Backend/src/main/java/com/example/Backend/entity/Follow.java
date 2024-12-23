@@ -1,12 +1,10 @@
 package com.example.Backend.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Getter
-@Setter
+//@Getter
+//@Setter
 @NoArgsConstructor
 @Entity
 @Table(name="follow")
@@ -30,6 +28,29 @@ public class Follow {
     public Follow(Integer followId, Integer followerId, Integer followedId) {
         this.followId = followId;
         this.followerId = followerId;
+        this.followedId = followedId;
+    }
+    public Integer getFollowId() {
+        return followId;
+    }
+
+    public void setFollowId(Integer followId) {
+        this.followId = followId;
+    }
+
+    public Integer getFollowerId() {
+        return followerId;
+    }
+
+    public void setFollowerId(Integer followerId) {
+        this.followerId = followerId;
+    }
+
+    public Integer getFollowedId() {
+        return followedId;
+    }
+
+    public void setFollowedId(Integer followedId) {
         this.followedId = followedId;
     }
 
