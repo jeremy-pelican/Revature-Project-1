@@ -3,7 +3,7 @@ package com.example.Backend.service;
 import com.example.Backend.entity.Account;
 import com.example.Backend.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
+//import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -27,9 +27,9 @@ public class AccountService {
         return accountRepository.findByUsername(account.getUsername()).isPresent();
     }
     public Account newAccount(Account account) {
-        // if (accountRepository.findByUsername(account.getUsername()).isPresent()) {
-        //     return null; 
-        // }
+         if (accountRepository.findByUsername(account.getUsername()).isPresent()) {
+             return null;
+         }
         if (account.getUsername().isEmpty() || account.getPassword().length() < 4) {
             return null;
         }

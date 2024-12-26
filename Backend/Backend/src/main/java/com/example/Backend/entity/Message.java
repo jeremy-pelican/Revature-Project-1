@@ -10,7 +10,8 @@ import lombok.NoArgsConstructor;
 @Table(name="message")
 public class Message {
     @Column (name="messageId")
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer messageId;
 
     @Column (name="postedBy")

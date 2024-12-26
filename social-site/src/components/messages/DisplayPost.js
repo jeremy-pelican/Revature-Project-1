@@ -4,12 +4,12 @@ import DisplayComments from "../comments/DisplayComments";
 const DisplayPost = ({posts}) => {
     return (
         posts.map((post)=>(
-            <div key={post.id}>
-                <h3>{post.title}</h3>
-                <p>{post.body}</p>
+            <div key={post.messageId}>
+                <h3>{post.postedBy}</h3>
+                <p>{post.messageText}</p>
                 <Link to="/messages/comments">Post a Comment</Link>
                 <h4>Comments</h4>
-                <DisplayComments/>
+                {/* <DisplayComments/> */}
             </div>
         ))
     );

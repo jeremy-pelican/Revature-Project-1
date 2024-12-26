@@ -7,6 +7,7 @@ import AccountComponent from './components/accounts/AccountComponent';
 import Messages from './components/messages/Messages';
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import HomePage from './HomePage';
+import SearchComponent from './components/SearchComponent';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
       <Route path='/account' element={<AccountComponent/>}/>
       <Route path='/login' element={<Login/>}/>
       <Route path='/register' element={<Register/>}/>
+      <Route path='/search' element={<SearchComponent/>}/>
     </Routes>
     </Router>
   );

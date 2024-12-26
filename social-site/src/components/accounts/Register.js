@@ -29,9 +29,10 @@ const Register = () => {
             <label>Username:</label>
                 <input type="text" id="name" value={username} onChange={(e)=>setUsername(e.target.value)}/><br/>
             <label>Password:</label>
-                <input type="passowrd" id="password" value={password} onChange={(e)=>setPassword(e.target.value)}/><br/>
+                <input type="password" id="password" value={password} onChange={(e)=>setPassword(e.target.value)}/><br/>
             <button type="submit" value="Register">Register</button>
         </form>
+        <span>Already have an account? <Link to="/login">Login</Link></span>
         </>
      );
 }

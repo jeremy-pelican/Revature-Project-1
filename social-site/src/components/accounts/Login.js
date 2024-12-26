@@ -10,28 +10,33 @@ const Login = () => {
     const navigate = useNavigate();
     const loginHandler=async(e)=>{
         e.preventDefault();
-        try {
-            const response = await AuthService.login({username, password});
-            if (response.data !== 'Invalid Login Credentials') {
-                localStorage.setItem('token', response.data);
-                console.log(response.data);
-                navigate('/account');
-            }
-            else {
-                setMessage('Invalid Login Credentials');
-            }
-        }
-        catch(error) {
-            setMessage('Invalid Login Credentials');
-        }
-        // const userData={
-        //     username: "username",
-        //     password: "password"
-        // };
-        // axios.post("http://localhost/8080/login", userData)
-        // .then((res)=>{
-        //     console.log(res.data);
-        // })
+        // try {
+        //     const response = await AuthService.login({username, password});
+        //     if (response.data !== 'Invalid Login Credentials') {
+        //         localStorage.setItem('token', response.data);
+        //         console.log(response.data);
+        //         navigate('/account');
+        //     }
+        //     else {
+        //         setMessage('Invalid Login Credentials');
+        //     }
+        // }
+        // catch(error) {
+        //     setMessage('Invalid Login Credentials');
+        // }
+        const userData={
+            username: username,
+            password: password
+        };
+        axios.post("http://localhost:8080/login", userData)
+        .then((res)=>{
+            console.log(res.data);
+            alert("Login successful!");
+        })
+        .catch((error)=>{
+            console.log("Login credentials invalid");
+            alert("Login UNsuccessful!");
+        })
     }
     return ( 
         <>
@@ -39,7 +44,7 @@ const Login = () => {
             <label>Username:</label>
                 <input type="text" id="name" value={username} onChange={(e)=>setUsername(e.target.value)}/><br/>
             <label>Password:</label>
-                <input type="passowrd" id="password" value={password} onChange={(e)=>setPassword(e.target.value)}/><br/>
+                <input type="password" id="password" value={password} onChange={(e)=>setPassword(e.target.value)}/><br/>
             <button type="submit" value="Login">Login</button>
         </form>
         <span>Not registered? <Link to="/register">Register here</Link></span>
