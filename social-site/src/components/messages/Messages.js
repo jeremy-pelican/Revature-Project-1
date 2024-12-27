@@ -14,9 +14,10 @@ const Messages = () => {
             console.log("Failed to retreive messages")
         })
     }, [posts])
+
     return ( 
         <>
-        <Link to="/messages">Post a new Message</Link>
+        <Link to="/messages/post">Post a new Message</Link>
         <DisplayPost posts={posts}/>
         </>
      );

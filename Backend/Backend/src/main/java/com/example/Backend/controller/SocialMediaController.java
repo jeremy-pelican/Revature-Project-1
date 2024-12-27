@@ -4,13 +4,14 @@ import com.example.Backend.entity.*;
 import com.example.Backend.repository.AccountRepository;
 import com.example.Backend.repository.MessageRepository;
 import com.example.Backend.service.*;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 @RestController
 public class SocialMediaController {
     @Autowired private AccountRepository accountRepository;
@@ -57,11 +58,12 @@ public class SocialMediaController {
 
     //@PostMapping("/login") to verify Account login
     @PostMapping("/login")
-    public ResponseEntity<Account> loginAccount(@RequestBody Account account) {
+    public ResponseEntity<Account> loginAccount(@RequestBody Account account, HttpSession session) {
         Account acc = accountService.loginAccount(account);
         if (acc == null) {
             return ResponseEntity.status(401).body(null);
         }
+        session.setAttribute("account", acc);
         return ResponseEntity.status(200).body(acc);
 //        try {
 //            UsernamePasswordAuthenticationToken authInputToken = new UsernamePasswordAuthenticationToken(body.getUsername(), body.getPassword());
@@ -73,6 +75,21 @@ public class SocialMediaController {
 //            throw new RuntimeException("Invalid Login Credentials");
 //        }
     }
+
+    @GetMapping("/session")
+    public ResponseEntity<Account> getSession(HttpSession session) {
+        Account account = (Account) session.getAttribute("account");
+        if (account != null) {
+            return ResponseEntity.status(200).body(account);
+        }
+        return null;
+    }
+
+    @GetMapping("/invalidate")
+    public void invalidateSession(HttpSession session) {
+        session.invalidate();
+    }
+
     @GetMapping("/accounts")
     public ResponseEntity<List<Account>> getAllAccounts() {
         return ResponseEntity.status(200).body(accountService.getAllAccounts());
@@ -129,13 +146,13 @@ public class SocialMediaController {
     /*
     Lists should be @GetMapping, updates should be @PatchMapping
     */
-    @GetMapping("search/accounts")
-    public ResponseEntity<List<Account>> searchAccounts(@RequestBody String search) {
+    @GetMapping("search/accounts/{search}")
+    public ResponseEntity<List<Account>> searchAccounts(@PathVariable String search) {
         return ResponseEntity.status(200).body(accountService.findAccounts(search));
     }
 
     @GetMapping("search/messages/{search}")
-    public ResponseEntity<List<Message>> searchMessages(@RequestBody String search) {
+    public ResponseEntity<List<Message>> searchMessages(@PathVariable String search) {
         return ResponseEntity.status(200).body(messageService.findMessages(search));
     }
 

@@ -1,12 +1,14 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {useNavigate, Link} from 'react-router-dom';
 import AuthService from '../../AuthService';
 import axios from "axios";
+import { MyContext } from '../../App';
 
 const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
+    const [context, setContext] = useContext(MyContext);
     const navigate = useNavigate();
     const loginHandler=async(e)=>{
         e.preventDefault();
@@ -31,6 +33,7 @@ const Login = () => {
         axios.post("http://localhost:8080/login", userData)
         .then((res)=>{
             console.log(res.data);
+            setContext(userData);
             alert("Login successful!");
         })
         .catch((error)=>{

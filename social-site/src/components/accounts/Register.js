@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {useNavigate, Link} from 'react-router-dom';
 import AuthService from '../../AuthService';
+import axios from "axios";
 
 const Register = () => {
     const [username, setUsername] = useState('');
@@ -9,19 +10,32 @@ const Register = () => {
     const navigate = useNavigate();
     const registerHandler=async(e)=>{
         e.preventDefault();
-        try {
-            const response = await AuthService.register({username, password});
-            if (response.data !== 'Invalid Registration Credentials') {
-                localStorage.setItem('token', response.data);
-                navigate('/account');
-            }
-            else {
-                setMessage('Invalid Registration Credentials');
-            }
+        // try {
+        //     const response = await AuthService.register({username, password});
+        //     if (response.data !== 'Invalid Registration Credentials') {
+        //         localStorage.setItem('token', response.data);
+        //         navigate('/account');
+        //     }
+        //     else {
+        //         setMessage('Invalid Registration Credentials');
+        //     }
+        // }
+        // catch(error) {
+        //     setMessage('Invalid Registration Credentials');
+        // }
+        const userData={
+            username: username,
+            password: password
         }
-        catch(error) {
-            setMessage('Invalid Registration Credentials');
-        }
+        axios.post("http://localhost:8080/register", userData)
+        .then((res)=>{
+            console.log(res.data);
+            alert("Registration successful!");
+        })
+        .catch((error)=>{
+            console.log(`Registration credentials invalid: username "${username}" already exists`);
+            alert("Registration UNsuccessful!");
+        })
     }
     return ( 
         <>

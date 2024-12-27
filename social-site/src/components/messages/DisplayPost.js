@@ -9,7 +9,7 @@ const DisplayPost = ({posts}) => {
                 <p>{post.messageText}</p>
                 <Link to="/messages/comments">Post a Comment</Link>
                 <h4>Comments</h4>
-                {/* <DisplayComments/> */}
+                <DisplayComments replyTo={post.messageId}/>
             </div>
         ))
     );
